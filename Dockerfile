@@ -10,6 +10,8 @@
 
 # See https://github.com/docker-library/docs/blob/master/centos/README.md
 FROM centos:8 AS centos-with-init
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
 ENV container docker
 # the centos instructions were outdated. a nearly unmodified image works better.
 CMD ["/usr/sbin/init"]
@@ -17,6 +19,8 @@ CMD ["/usr/sbin/init"]
 
 # A cache of RPMs that we can use in other stages of the build
 FROM centos:8 AS yum-cache
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
 
 # (add any other repositories you need here)
 
